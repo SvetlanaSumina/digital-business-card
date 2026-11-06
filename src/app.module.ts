@@ -2,6 +2,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
+import { HealthController } from './health/health.controller';
 import { PrismaModule } from './prisma/prisma.module';
 import { ProfileLoadersFactory } from './profile/profile.loaders';
 import { ProfileModule } from './profile/profile.module';
@@ -37,5 +38,6 @@ import { ProfileModule } from './profile/profile.module';
     PrismaModule,
     ProfileModule,
   ],
+  controllers: [HealthController],
 })
 export class AppModule {}

@@ -15,8 +15,9 @@ services:
     runtime: docker
     plan: free
     region: frankfurt
-    # GET /graphql отдаёт Apollo Sandbox (HTML 200) — удобная проверка живости.
-    healthCheckPath: /graphql
+    # GET /graphql без браузерного Accept отвечает 400 (CSRF у Apollo),
+    # поэтому Render проверяет отдельный маршрут.
+    healthCheckPath: /health
     envVars:
       - key: NODE_ENV
         value: production
