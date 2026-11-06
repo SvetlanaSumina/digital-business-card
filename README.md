@@ -2,6 +2,9 @@
 
 GraphQL API профиля backend-разработчика: NestJS, Prisma, PostgreSQL, Docker.
 
+**Деплой:** https://portfolio-api-h850.onrender.com
+**Sandbox:** https://portfolio-api-h850.onrender.com/graphql
+
 ## Стек
 
 - **NestJS** — HTTP-сервер и DI
