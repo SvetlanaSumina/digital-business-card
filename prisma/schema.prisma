@@ -1,0 +1,74 @@
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "cjs"
+  importFileExtension = ""
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Profile {
+  id          Int          @id @default(autoincrement())
+  slug        String       @unique
+  name        String
+  description String
+  links       Link[]
+  skills      Skill[]
+  experience  Experience[]
+  projects    Project[]
+  createdAt   DateTime     @default(now()) @map("created_at")
+  updatedAt   DateTime     @updatedAt @map("updated_at")
+
+  @@map("profiles")
+}
+
+model Link {
+  id        Int     @id @default(autoincrement())
+  profileId Int     @map("profile_id")
+  label     String
+  url       String
+  sortOrder Int     @default(0) @map("sort_order")
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, url])
+  @@map("links")
+}
+
+model Skill {
+  id        Int     @id @default(autoincrement())
+  profileId Int     @map("profile_id")
+  name      String
+  sortOrder Int     @default(0) @map("sort_order")
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, name])
+  @@map("skills")
+}
+
+model Experience {
+  id           Int       @id @default(autoincrement())
+  profileId    Int       @map("profile_id")
+  company      String
+  position     String
+  startDate    DateTime  @map("start_date") @db.Date
+  endDate      DateTime? @map("end_date") @db.Date
+  achievements String[]
+  profile      Profile   @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@index([profileId, startDate(sort: Desc)])
+  @@map("experience")
+}
+
+model Project {
+  id        Int     @id @default(autoincrement())
+  profileId Int     @map("profile_id")
+  name      String
+  url       String
+  sortOrder Int     @default(0) @map("sort_order")
+  profile   Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+
+  @@unique([profileId, name])
+  @@map("projects")
+}

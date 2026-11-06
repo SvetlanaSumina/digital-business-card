@@ -1,0 +1,28 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-seed/
+*.tsbuildinfo
+
+# environment
+.env
+.env.*
+!.env.example
+
+# tests
+coverage/
+
+# logs
+*.log
+npm-debug.log*
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# prisma generated client
+src/generated/
+.tools/

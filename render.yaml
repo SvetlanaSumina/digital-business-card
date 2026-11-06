@@ -1,0 +1,29 @@
+# Blueprint для деплоя на Render: Web Service (Docker) + PostgreSQL.
+# Dashboard → New → Blueprint → указать этот репозиторий.
+# Free Postgres действует 30 дней — для тестового задания этого достаточно.
+
+databases:
+  - name: portfolio-db
+    plan: free
+    region: frankfurt
+    databaseName: portfolio
+    user: portfolio
+
+services:
+  - type: web
+    name: portfolio-api
+    runtime: docker
+    plan: free
+    region: frankfurt
+    # GET /graphql отдаёт Apollo Sandbox (HTML 200) — удобная проверка живости.
+    healthCheckPath: /graphql
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: portfolio-db
+          property: connectionString
+      # Render сам выставляет PORT; приложение читает process.env.PORT
+      - key: PRISMA_QUERY_LOG
+        value: 'false'
