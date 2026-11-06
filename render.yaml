@@ -15,9 +15,9 @@ services:
     runtime: docker
     plan: free
     region: frankfurt
-    # GET /graphql без браузерного Accept отвечает 400 (CSRF у Apollo),
-    # поэтому Render проверяет отдельный маршрут.
-    healthCheckPath: /health
+    # HTTP-проверку не задаём. Порт 10000 Render видит, а GET /health
+    # с его внутреннего адреса не получает ответ, и деплой обрывается по таймауту.
+    # Без healthCheckPath Render проверяет только, что порт открыт.
     envVars:
       - key: NODE_ENV
         value: production
